@@ -1,0 +1,23 @@
+---
+# Handler for docker
+- name: restart docker
+  become: true
+  service:
+    name: docker
+    state: restarted
+
+
+#
+# User setting
+#
+- name: add docker group
+  become: true
+  group:
+    name: docker
+
+- name: add user to docker group
+  become: true
+  user:
+    name: "{{ docker_user }}"
+    groups: docker
+    append: yes

@@ -1,0 +1,5 @@
+---
+
+- name: Check Kernel version.
+  fail: msg="Kernel {{ ansible_kernel }} is not supported"
+  when: "ansible_kernel | version_compare('3.10', '<')"

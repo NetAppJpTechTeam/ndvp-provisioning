@@ -1,0 +1,63 @@
+---
+
+#
+# prepare for installation
+# update apt, add gpg key, add dockder-repository
+#
+
+
+- name: install packages
+  become: true
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items: "{{ docker_packages }}"
+  when: docker_packages
+
+- name: add docker official GPG Key
+  become: true
+  apt_key:
+    url: "https://download.docker.com/linux/ubuntu/gpg"
+    state: present
+  register: set_key
+
+- name: define lsb_release
+  shell: lsb_release -cs
+  register: lsb_release
+
+- name: add docker stable repository
+  become: true
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ lsb_release.stdout }} stable
+    state: present
+  when: set_key
+  register: set_repo
+
+#
+# Install the docker engine
+#
+
+- name: install docker-ce
+  become: true
+  apt:
+    pkg: docker-ce
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  notify:
+    - restart docker
+    - add docker group
+    - add user to docker group
+
+#
+# enable docker service
+# Is it handlers is suitable position?
+#
+- name: enable docker service
+  become: true
+  service:
+    name: docker
+    state: started
+    enabled: true

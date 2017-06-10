@@ -1,0 +1,5 @@
+---
+- hosts: docker
+  roles:
+    - common
+    - docker
