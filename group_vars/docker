@@ -6,9 +6,5 @@ docker_packages:
   - curl
   - software-properties-common
 
-#
-# Change appropriate user.
-#
-docker_user: "makotow"
-ansible_user: "makotow"
+docker_version: latest
 

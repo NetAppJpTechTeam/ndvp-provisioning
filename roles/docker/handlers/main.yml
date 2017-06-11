@@ -5,7 +5,7 @@
   service:
     name: docker
     state: restarted
-
+    enabled: true
 
 #
 # User setting

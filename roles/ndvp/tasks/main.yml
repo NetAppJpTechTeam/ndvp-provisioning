@@ -1,0 +1,62 @@
+---
+
+- name: copy multipath-conf
+  become: true
+  copy:
+    src: multipath.conf
+    dest: /etc/multipath.conf
+
+- name: common packages and utility tools install
+  become: true
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items: "{{ ndvp_packages }}"
+  notify:
+    - enable and start iscsi services
+
+# create config directory
+- name: create config directory
+  become: true
+  file:
+    path: "{{ ndvp_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+
+# copy config file to directory
+- name: copy config file
+  become: yes
+  copy:
+    src: "{{ item.config_file }}"
+    dest: "{{ ndvp_dir }}"
+    owner: "{{ docker_user }}"
+    group: docker
+    mode: 0775
+  with_items: "{{ ndvp_plugins }}"
+
+- name: install netapp docker volume plugin
+  shell: docker plugin install netapp/ndvp-plugin:"{{ item.version | default("latest") }}" --alias "{{ item.alias }}" --grant-all-permissions --disable
+  with_items: "{{ ndvp_plugins }}"
+  ignore_errors: True
+
+- name: check docker volume plugin installation
+  shell: docker plugin inspect "{{ item.alias }}"
+  with_items: "{{ ndvp_plugins }}"
+  register: check_plugin
+  failed_when: check_plugin.rc != 0
+
+- name: disable volume plugin to configure
+  shell: docker plugin disable "{{ item.alias }}":"{{ item.version | default("latest") }}"
+  with_items: "{{ ndvp_plugins }}"
+
+- name: set config file path
+  shell: docker plugin set "{{ item.alias }}" debug="{{ item.debug | default("true") }}" config="{{ [ndvp_dir, item.config_file] | join("/") }}"
+  with_items: "{{ ndvp_plugins }}"
+  notify:
+    - enable docker volume plugin
+
+
+## TODO ONTAP provisioning and solidfire provisioning
+## TODO parameterized json files.

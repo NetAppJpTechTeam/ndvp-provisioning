@@ -1,0 +1,13 @@
+---
+# enable plugin
+- name: enable docker volume plugin
+  shell: docker plugin enable "{{ item.alias }}":"{{ item.version | default("latest") }}"
+  with_items: "{{ ndvp_plugins }}"
+
+- name: enable and start iscsi services
+  become: true
+  service:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    enabled: "{{ item.enabled }}"
+  with_items: "{{ ndvp_services }}"

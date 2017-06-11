@@ -1,6 +1,14 @@
+[all:children]
+docker
+ndvp
+
 [docker]
 192.168.2.35
 192.168.2.37
 
 [docker:vars]
 ansible_ssh_user={{ ansible_user }}
+
+[ndvp]
+192.168.2.35
+192.168.2.37

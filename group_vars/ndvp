@@ -1,0 +1,40 @@
+---
+# variables
+
+ndvp_packages:
+  - open-iscsi
+  - lsscsi
+  - sg3-utils
+  - multipath-tools
+  - scsitools
+  - nfs-common
+  - jq
+
+ndvp_services:
+  - { name: open-iscsi, state: started, enabled: true }
+  - { name: multipath-tools, state: started, enabled: true }
+
+#
+# configuration file directory
+#
+ndvp_dir: /etc/netappdvp
+
+#
+# alias pattern: service catalogue, backend storage, and etc.
+#
+ndvp_plugins:
+  - { alias: sf-san, version: latest, debug: true, config_file: solid-san.json }
+#  - {alias: ontap-nas
+
+#
+# backends storage
+#
+
+ontap_managment_lif: 192.168.1.100
+ontap_data_lif: 192.168.1.150
+
+sf_svip:
+sf_endpoint: 
+sf_tenant:
+
+

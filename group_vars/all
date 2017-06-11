@@ -1,0 +1,5 @@
+#
+# Change appropriate user.
+#
+docker_user: "makotow"
+ansible_user: "makotow"

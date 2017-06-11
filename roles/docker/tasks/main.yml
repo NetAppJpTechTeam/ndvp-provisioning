@@ -14,7 +14,6 @@
     update_cache: yes
     cache_valid_time: 3600
   with_items: "{{ docker_packages }}"
-  when: docker_packages
 
 - name: add docker official GPG Key
   become: true
@@ -51,13 +50,3 @@
     - add docker group
     - add user to docker group
 
-#
-# enable docker service
-# Is it handlers is suitable position?
-#
-- name: enable docker service
-  become: true
-  service:
-    name: docker
-    state: started
-    enabled: true

@@ -1,6 +1,15 @@
 # Docker Volume Plugin provisionig with Ansible
 
 
+## What is this?
+
+Provisioner for NetApp Docker Volume Plugin.
+
+- docker related software install
+    - docker
+- Add docker user and group
+- Enable service and started
+
 ## Requirements
 
 Currently supported following environment.
@@ -17,14 +26,6 @@ target host satisfied following condition.
 - python installed
 
 
-## What is this?
-
-Provisioner for NetApp Docker Volume Plugin.
-
-- docker related software install
-    - docker
-- Add docker user and group
-- Enable service and started
 
 ## Current features
 
@@ -40,12 +41,6 @@ $ git clone makotow/docker-volume-plugin-provisioning
 $ cd /path/to/repository-top && make
 ```
 
-
-### Provision following environment
-
-- Docker environment setup 
-- NetApp Docker Volume Plugin
-
 ## TODO
 - CentOS provisioning
 - flexible configuration
@@ -53,3 +48,11 @@ $ cd /path/to/repository-top && make
 - docker-compose install
 - Netapp docker volume plugin for tempalate.
 - sudo password set 
+
+## Authors
+
+- [@makotow](https://github.com/makotow)
+
+## License
+
+MIT
