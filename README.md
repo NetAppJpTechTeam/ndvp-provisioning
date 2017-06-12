@@ -1,14 +1,12 @@
-# Docker Volume Plugin provisionig with Ansible
+# Docker Volume Plugin provisioning with Ansible
 
 
 ## What is this?
 
-Provisioner for NetApp Docker Volume Plugin.
+Easy to deploy NetApp docker volume plugin (nDVP). 
 
-- docker related software install
-    - docker
-- Add docker user and group
-- Enable service and started
+Main use case is setting up PoC environment.
+
 
 ## Requirements
 
@@ -18,36 +16,46 @@ Currently supported following environment.
 - latest docker version
 - using ssh public-key authentication (required)
 
-target host satisfied following condition.
+Target host must satisfied following condition.
 
 - Ansible 
 - /etc/ssh/sshd_config 
-    - Keyautehticated
+    - Enabled Key authentication
 - python installed
-
-
 
 ## Current features
 
-
+- Install docker
+- Install NetApp Docker Volume Plugin
+    - backend storage can set using group_vars/ndvp ndvp_plugins variable.
 
 ## How to use?
 
-Provisioning via Ansible!
+Configure following files.
 
-just do below
-```
+- lab: inventory file. Replace your hosts ip.
+- group_vars/all: Set ansibleuser and docker user. 
+- group_vars/ndvp: Add backend storage.
+- ndvp/files: Modify backend storage json for your environment. Please see official ndvp documentation.
+    - ONTAP: http://netappdvp.readthedocs.io/en/latest/install/ndvp_ontap_config.html#ontap-configuration
+    - SolidFire: http://netappdvp.readthedocs.io/en/latest/install/ndvp_sf_config.html
+    - E-Series: http://netappdvp.readthedocs.io/en/latest/install/ndvp_e_config.html
+
+
+
+```Examples
 $ git clone makotow/docker-volume-plugin-provisioning
-$ cd /path/to/repository-top && make
+$ cd /path/to/docker-volume-plugin-provisioning
+$ ansible-playbook -i lab site.yml --private-key ~/.ssh/lab_id_rsa  --ask-become-pass
 ```
 
 ## TODO
-- CentOS provisioning
+- CentOS/RHEL provisioning
 - flexible configuration
-    - docker version. Currently, latest version only.
+    - Docker version. Currently, latest version only.
 - docker-compose install
-- Netapp docker volume plugin for tempalate.
-- sudo password set 
+- Netapp docker volume plugin configuration file using template.
+- sudo password set using Ansible Vault? (Is it require?)
 
 ## Authors
 
