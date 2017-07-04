@@ -50,6 +50,7 @@
 - name: disable volume plugin to configure
   shell: docker plugin disable "{{ item.alias }}":"{{ item.version | default("latest") }}"
   with_items: "{{ ndvp_plugins }}"
+  ignore_errors: True
 
 - name: set config file path
   shell: docker plugin set "{{ item.alias }}" debug="{{ item.debug | default("true") }}" config="{{ [ndvp_dir, item.config_file] | join("/") }}"
@@ -58,5 +59,4 @@
     - enable docker volume plugin
 
 
-## TODO ONTAP provisioning and solidfire provisioning
 ## TODO parameterized json files.
