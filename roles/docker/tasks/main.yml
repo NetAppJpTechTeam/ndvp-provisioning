@@ -34,10 +34,14 @@
   when: set_key
   register: set_repo
 
+- name: Upgrade pip
+  pip:
+    name: pip
+    extra_args: --upgrade
+
 #
 # Install the docker engine
 #
-
 - name: install docker-ce
   become: true
   apt:
@@ -50,3 +54,6 @@
     - add docker group
     - add user to docker group
 
+- name: Install docker-compose
+  pip:
+    name: docker-compose
