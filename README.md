@@ -53,7 +53,6 @@ $ ansible-playbook -i lab site.yml --private-key ~/.ssh/lab_id_rsa  --ask-become
 - CentOS/RHEL provisioning
 - flexible configuration
     - Docker version. Currently, latest version only.
-- docker-compose install
 - Netapp docker volume plugin configuration file using template.
 - sudo password set using Ansible Vault? (Is it require?)
 
