@@ -5,10 +5,7 @@ docker_packages:
   - ca-certificates
   - curl
   - software-properties-common
-  - python
-  - python-setuptools
-  - python-pkg-resources
-  - python-pip
+  - docker-compose
 
 
 docker_version: latest

@@ -13,6 +13,7 @@ ndvp_packages:
 ndvp_services:
   - { name: open-iscsi, state: started, enabled: true }
   - { name: multipath-tools, state: started, enabled: true }
+  - { name: rpcbind, state: started, enabled: true }
 
 #
 # configuration file directory
@@ -24,16 +25,17 @@ ndvp_dir: /etc/netappdvp
 #
 ndvp_plugins:
   - { alias: sf-san, version: latest, debug: true, config_file: solid-san.json }
-#  - {alias: ontap-nas, version: latest, debug: true, config_file: ontap-nas.json }
-
+  - { alias: ontap-nas, version: latest, debug: true, config_file: ontap-nas.json }
 
 ### Work in progress  
 #
-# backends storage
+# backends storage information
 #
 
 #ontap_managment_lif: 192.168.1.100
 #ontap_data_lif: 192.168.1.150
+#ontap_svm: ndvpsvm
+#ontap_aggr: aggr3
 
 #sf_svip:
 #sf_endpoint:
