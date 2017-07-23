@@ -1,6 +1,5 @@
 # Docker Volume Plugin provisioning with Ansible
 
-
 ## What is this?
 
 Easy to deploy NetApp docker volume plugin (nDVP). 
@@ -22,6 +21,9 @@ Target host must satisfied following condition.
 - /etc/ssh/sshd_config 
     - Enabled Key authentication
 - python installed
+- Prepare storage backend and host os configuration
+    - See Host OS configuration sample: [Host OS Config](docs/osoperations.md)
+    - See Storage configuration sample: [Storge backend Config](docs/storageoperations.md)
 
 ## Current features
 
@@ -44,17 +46,18 @@ Configure following files.
 
 
 ```Examples
-$ git clone makotow/docker-volume-plugin-provisioning
-$ cd /path/to/docker-volume-plugin-provisioning
-$ ansible-playbook -i lab site.yml --private-key ~/.ssh/lab_id_rsa  --ask-become-pass
+clone this repository then execute following playbook.
+
+$ cd /path/to/ndvp-provisioning
+$ ansible-playbook -i lab site.yml --private-key /path/to/keyfile --ask-become-pass
 ```
 
 ## TODO
-- CentOS/RHEL provisioning
-- flexible configuration
-    - Docker version. Currently, latest version only.
-- Netapp docker volume plugin configuration file using template.
-- sudo password set using Ansible Vault? (Is it require?)
+- [ ] CentOS/RHEL provisioning (Is it require?)
+- [ ] Design consideration. Netapp docker volume plugin configuration file using template. The design will be determined. (file base copy or template replacement)
+- [ ] sudo password set using Ansible Vault? (Is it require?)
+- [ ] Create Japanese README
+- [ ] Create GitHub Pages
 
 ## Authors
 
