@@ -6,7 +6,14 @@
 #
 
 
-- name: install packages
+- name: add docker official GPG Key
+  become: true
+  apt_key:
+    url: "https://download.docker.com/linux/ubuntu/gpg"
+    state: present
+  register: set_key
+
+- name: install packages included docker-compose
   become: true
   apt:
     pkg: "{{ item }}"
@@ -15,12 +22,6 @@
     cache_valid_time: 3600
   with_items: "{{ docker_packages }}"
 
-- name: add docker official GPG Key
-  become: true
-  apt_key:
-    url: "https://download.docker.com/linux/ubuntu/gpg"
-    state: present
-  register: set_key
 
 - name: define lsb_release
   shell: lsb_release -cs
@@ -33,11 +34,6 @@
     state: present
   when: set_key
   register: set_repo
-
-- name: Upgrade pip
-  pip:
-    name: pip
-    extra_args: --upgrade
 
 #
 # Install the docker engine
@@ -53,7 +49,3 @@
     - restart docker
     - add docker group
     - add user to docker group
-
-- name: Install docker-compose
-  pip:
-    name: docker-compose
