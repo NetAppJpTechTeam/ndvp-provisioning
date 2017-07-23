@@ -23,40 +23,36 @@
   file:
     path: "{{ ndvp_dir }}"
     state: directory
-    owner: "{{ ansible_user }}"
-
-# copy config file to directory
-- name: copy config file
-  become: yes
-  copy:
-    src: "{{ item.config_file }}"
-    dest: "{{ ndvp_dir }}"
     owner: "{{ docker_user }}"
-    group: docker
-    mode: 0775
-  with_items: "{{ ndvp_plugins }}"
-
-- name: install netapp docker volume plugin
-  shell: docker plugin install netapp/ndvp-plugin:"{{ item.version | default("latest") }}" --alias "{{ item.alias }}" --grant-all-permissions --disable
-  with_items: "{{ ndvp_plugins }}"
-  ignore_errors: True
 
 - name: check docker volume plugin installation
   shell: docker plugin inspect "{{ item.alias }}"
   with_items: "{{ ndvp_plugins }}"
   register: check_plugin
-  failed_when: check_plugin.rc != 0
+  ignore_errors: yes
 
-- name: disable volume plugin to configure
-  shell: docker plugin disable "{{ item.alias }}":"{{ item.version | default("latest") }}"
-  with_items: "{{ ndvp_plugins }}"
-  ignore_errors: True
+- name: install netapp docker volume plugin
+  shell: docker plugin install netapp/ndvp-plugin:"{{ item.item.version | default("latest") }}" --alias "{{ item.item.alias }}" --grant-all-permissions --disable
+  when: item.rc == 1
+  with_items: "{{ check_plugin.results }}"
+
+
+# copy config file to directory
+- name: copy config file
+  become: yes
+  copy:
+    src: "{{ item.item.config_file }}"
+    dest: "{{ ndvp_dir }}"
+    owner: "{{ docker_user }}"
+    group: docker
+    mode: 0775
+    backup: yes
+  when: item.rc == 1
+  with_items: "{{ check_plugin.results }}"
 
 - name: set config file path
-  shell: docker plugin set "{{ item.alias }}" debug="{{ item.debug | default("true") }}" config="{{ [ndvp_dir, item.config_file] | join("/") }}"
-  with_items: "{{ ndvp_plugins }}"
+  shell: docker plugin set "{{ item.item.alias }}" debug="{{ item.item.debug | default("true") }}" config="{{ [ndvp_dir, item.item.config_file] | join("/") }}"
+  when: item.rc == 1
+  with_items: "{{ check_plugin.results }}"
   notify:
     - enable docker volume plugin
-
-
-## TODO parameterized json files.
