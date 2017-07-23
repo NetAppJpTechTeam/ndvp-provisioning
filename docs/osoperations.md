@@ -1,6 +1,6 @@
 # Docker ホストの事前準備
 
-詳細は 
+詳細は本家の[Host Configuration](http://netappdvp.readthedocs.io/en/latest/install/host_config.html)を参照。
 
 ## 必要パッケージ一覧
 
