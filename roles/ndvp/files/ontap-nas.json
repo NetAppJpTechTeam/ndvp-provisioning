@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "storageDriverName": "ontap-nas",
+  "managementLIF": "192.168.199.228",
+  "dataLIF": "192.168.199.227",
+  "svm": "ndvpsvm",
+  "username": "vsadmin",
+  "password": "netapp123",
+  "aggregate": "aggr3"
+}

@@ -1,9 +1,8 @@
 {
   "version": 1,
   "storageDriverName": "solidfire-san",
-  "debug": true,
-  "Endpoint": "https://admin:solidfire@192.168.2.51/json-rpc/7.0",
-  "SVIP": "192.168.2.50:3260",
+  "Endpoint": "https://admin:solidfire@192.168.199.224/json-rpc/7.0",
+  "SVIP": "192.168.199.225:3260",
   "TenantName": "docker",
   "InitiatorIFace": "default",
   "Types": [
