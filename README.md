@@ -23,7 +23,7 @@ Target host must satisfied following condition.
 - python installed
 - Prepare storage backend and host os configuration
     - See Host OS configuration sample: [Host OS Config](docs/osoperations.md)
-    - See Storage configuration sample: [Storge backend Config](docs/storageoperations.md)
+    - See Storage configuration sample: [Storage backend Config](docs/storageoperations.md)
 
 ## Current features
 
