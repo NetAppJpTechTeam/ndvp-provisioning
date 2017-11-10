@@ -2,7 +2,7 @@
 
 #
 # prepare for installation
-# update apt, add gpg key, add dockder-repository
+# update apt, add gpg key, add docker-repository
 #
 
 
