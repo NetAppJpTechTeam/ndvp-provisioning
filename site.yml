@@ -1,4 +1,4 @@
 ---
 
-- include: docker.yml
-- include: ndvp.yml
+- import_playbook: docker.yml
+- import_playbook: ndvp.yml
