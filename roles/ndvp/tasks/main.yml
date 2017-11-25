@@ -26,12 +26,14 @@
     owner: "{{ docker_user }}"
 
 - name: check docker volume plugin installation
+  become: true
   shell: docker plugin inspect "{{ item.alias }}"
   with_items: "{{ ndvp_plugins }}"
   register: check_plugin
   ignore_errors: yes
 
 - name: install netapp docker volume plugin
+  become: true
   shell: docker plugin install netapp/ndvp-plugin:"{{ item.item.version | default("latest") }}" --alias "{{ item.item.alias }}" --grant-all-permissions --disable
   when: item.rc == 1
   with_items: "{{ check_plugin.results }}"
@@ -39,7 +41,7 @@
 
 # copy config file to directory
 - name: copy config file
-  become: yes
+  become: true 
   copy:
     src: "{{ item.item.config_file }}"
     dest: "{{ ndvp_dir }}"
@@ -51,6 +53,7 @@
   with_items: "{{ check_plugin.results }}"
 
 - name: set config file path
+  become: true
   shell: docker plugin set "{{ item.item.alias }}" debug="{{ item.item.debug | default("true") }}" config="{{ [ndvp_dir, item.item.config_file] | join("/") }}"
   when: item.rc == 1
   with_items: "{{ check_plugin.results }}"
