@@ -7,7 +7,7 @@
 IPアドレスなどは仮のIPを入れてあります。
 後続の手順内で任意のIPを設定してください。
 
-\#{XXX} となっている箇所は任意の値を設定する箇所です。 
+\#{XXX} となっている箇所は任意の値を設定する箇所です。
 
 ## 前提
 
@@ -43,7 +43,7 @@ SVMの作成 → ネットワーク設定 → nfs プロトコルの有効化 �
 | #{AGGR}  	|svmに関連付ける aggregate を設定   	|
 
 
- 
+
 ```
 vserver create -vserver #{SVMNAME} -ipspace #{IPSPACE} -aggregate #{AGGR} -language C.UTF-8 -rootvolume root -rootvolume-security-style unix
 nfs create -vserver #{SVMNAME} -access true -v3 enabled -v4.0 enabled -tcp enabled
@@ -80,7 +80,7 @@ NFS接続用のデータアクセス通信用のインターフェースを作�
 | #{NETMASK}    | ネットマスク    |
 
 ```
-network interface create -vserver #{SVMNAME} -lif #{DATA-LIF} -role data -data-protocol nfs -home-node #{HOME_NODE} -home-port #{HOME-PORT} -address #{IP} -netmask #{NETMASK} -status-admin up -failover-policy system-defined -firewall-policy data -auto-revert true
+network interface create -vserver #{SVMNAME} -lif #{DATA-LIF} -role data -data-protocol nfs -home-node #{HOME-NODE} -home-port #{HOME-PORT} -address #{IP} -netmask #{NETMASK} -status-admin up -failover-policy system-defined -firewall-policy data -auto-revert true
 ```
 
 SVM管理用のインターフェースを作成します。
@@ -91,11 +91,11 @@ SVM管理用のインターフェースを作成します。
 | #{MGMT-LIF}   | SVM管理用のネットワークインターフェース |
 | #{HOME-NODE} | LIFを作成するホームノード    |
 | #{HOME-PORT} | LIFを作成するホームポート |
-| #{IP}        | NFS通信をするLIFのIP |
+| #{SVM-MGMT-IP} | 管理通信をするLIFのIP  |
 | #{NETMASK}    | ネットマスク    |
 
 ```
-network interface create –vserver #{SVMNAME} –lif svm-mgmt –role data –data-protocol none –home-node #{HOMENODE} -home-port  #{HOMEPORT} –address #{SVM-MGMT-IP} -netmask #{NETMASK} -status-admin up –failover-policy system-defined –firewall-policy mgmt –auto-revert true 
+network interface create –vserver #{SVMNAME} –lif svm-mgmt –role data –data-protocol none –home-node #{HOME-NODE} -home-port  #{HOME-PORT} –address #{SVM-MGMT-IP} -netmask #{NETMASK} -status-admin up –failover-policy system-defined –firewall-policy mgmt –auto-revert true
 ```
 
 ### 作成した SVM の管理者ユーザの有効化、パスワード設定
